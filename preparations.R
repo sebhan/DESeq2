@@ -1,19 +1,23 @@
 # set working directory
 setwd("C:/Users/sebastian.hansen/Documents/AML/DESeq2 analysis of mutation impact")
 
+# load relevant libraries
+library(DESeq2)
+
 # read .csv files
-ctsdata <- read.csv(file = "merged_gene_counts_stripped.csv", sep = "\t")
-coldata <- as.matrix(read.csv(file = "mutation_groups_AS_version2.csv", sep = "\t"))
+ctsdata <- read.csv(file="ctsdata.csv", row.names=119)
+coldata <- read.csv(file="coldata.csv", row.names=1)
 
-# strip out extraneous lines to make dimensions between ctsdata and coldata the same (coldata [x1:y2] == ctsdata [y1:x2], where x1 == y1 and x2 == y2)
-# for ctsdata, strip out first column ("Geneid")
-ctsdata <- ctsdata[-c(1)]
+# check if sorted ctsdata and coldata names are the same
+identical(sort(rownames(coldata)), sort(colnames(ctsdata))) # output "[1] TRUE"
 
-# in ctsdata, strip out extraneous patient data ("exclrRNAsAligned... ") to harmonize with coldata
-# TO DO, done via data preprocessing now (find-replace)
+# make DESeq data set from imported data
+dataset <- DESeqDataSetFromMatrix(countData = ctsdata,
+                              colData = coldata,
+                              design= ~ NPM1.y)
 
-# get patient data column for ctsdata
-ctsdata[0:0, ]
+# run DESeq
+dds <- DESeq(dataset)
 
-# get patient data column for coldata
-coldata[, 1]
+# get results of DESeq analysis
+results(dds)
