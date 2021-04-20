@@ -29,6 +29,10 @@ coldata = coldata.transpose()
 #keep only NPM1 column of coldata
 coldata_stripped = coldata[["NPM1.y"]].copy()
 
+# sort the data frames, so that patient IDs are sorted for DESeq analysis in R
+ctsdata = ctsdata.reindex(sorted(ctsdata.columns), axis=1)
+coldata_stripped.sort_index(inplace=True)
+
 # save the column data and counts data to *.csv-files
 coldata_stripped.to_csv("C:/Users/sebastian.hansen/Documents/AML/DESeq2 analysis of mutation impact/coldata.csv", sep=",")
 ctsdata.to_csv("C:/Users/sebastian.hansen/Documents/AML/DESeq2 analysis of mutation impact/ctsdata.csv", sep=",", index=False)
