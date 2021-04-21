@@ -26,7 +26,7 @@ coldata.columns.intersection(ctsdata.columns)
 # transpose column data back to correct orientation
 coldata = coldata.transpose()
 
-#keep only NPM1 column of coldata
+# select which column(s) to keep in coldata
 coldata_stripped = coldata[["NPM1.y"]].copy()
 
 # sort the data frames, so that patient IDs are sorted for DESeq analysis in R
