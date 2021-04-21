@@ -21,3 +21,9 @@ dds <- DESeq(dataset)
 
 # get results of DESeq analysis
 results(dds)
+
+# set results to variable called "res"
+res <- results(dds)
+
+# create MA-plot (where M is log ratio, and A is mean average)
+plotMA(res)
