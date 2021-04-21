@@ -22,8 +22,13 @@ dds <- DESeq(dataset)
 # get results of DESeq analysis
 results(dds)
 
-# set results to variable called "res"
+# set results to variable called "res" (results)
 res <- results(dds)
 
 # create MA-plot (where M is log ratio, and A is mean average)
 plotMA(res)
+
+# get specific columns of res dataframe
+res[,2] # log2FoldChange
+res[,5] # pvalue
+res[,6] # padj
