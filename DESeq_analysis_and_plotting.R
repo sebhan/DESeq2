@@ -32,3 +32,6 @@ plotMA(res)
 res[,2] # log2FoldChange
 res[,5] # pvalue
 res[,6] # padj
+
+# get vector of header names of dataframe "coldata"
+names(coldata) # get specific value (e.g., fifth value) via names(coldata)[5]
