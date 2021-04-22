@@ -37,15 +37,8 @@ res[,6] # padj
 names(coldata) # get specific value (e.g., fifth value) via names(coldata)[5]
 
 # create data frames to append analysis values to
-df1 <- data.frame(mutationPair=character(),log2FoldChange=character(),pval=character(),padj=character(),
-                 stringsAsFactors=FALSE)
-dfTemp <- data.frame(paste(genes[1],genes[2]),0,0.05,1)
-names(dfTemp) <- c("mutationPair","log2FoldChange","pval","padj") # note: make sure that dfTemp header names match df1 headers
-
-# append fake values
-genes <- c("NPM1","FLT3","TP53") # toy gene list
-dfTemp <- data.frame(paste(genes[1],genes[2]),0,0.05,1) # "paste()" makes string from gene list values
-df1 <- rbind(df1,dfTemp)
+df1 <- data.frame(mut1=character(), mut2=character(),log2FoldChange=character(),pval=character(),padj=character(),
+                  stringsAsFactors=FALSE)
 
 # loop for iteration over gene list
 for(i in genes)
@@ -53,8 +46,12 @@ for(i in genes)
     for(j in genes)
     {
         if(i != j) # i != j exludes comparison between the same gene (e.g., NPM1 and NPM1)
-            {
-            print(c(i,j))
-            }
+        {
+            if(!(any(df1$mut1 == j & df1$mut2 == i))) # exclude previously examined pairs
+              {
+                dfTemp <- data.frame(mut1=i,mut2=j,log2FoldChange=0,pval=0.05,padj=1)
+                df1 <- rbind(df1,dfTemp)
+              }
+        }
     }
 }
