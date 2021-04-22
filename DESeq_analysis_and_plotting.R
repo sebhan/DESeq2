@@ -41,6 +41,8 @@ df1 <- data.frame(mut1=character(), mut2=character(),log2FoldChange=character(),
                   stringsAsFactors=FALSE)
 
 # loop for iteration over gene list
+genes = c("NPM1", "FLT3", "TP53") # toy gene list
+
 for(i in genes)
 {
     for(j in genes)
