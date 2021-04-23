@@ -31,7 +31,7 @@ coldata = coldata.transpose()
 
 # sort the data frames, so that patient IDs are sorted for DESeq analysis in R
 ctsdata = ctsdata.reindex(sorted(ctsdata.columns), axis=1)
-coldata_stripped.sort_index(inplace=True)
+coldata.sort_index(inplace=True)
 
 # save the column data and counts data to *.csv-files
 filedir = "C:/Users/Admin/Documents/Lehtio_lab/AML/DESeq2 analysis of mutation impact/"
