@@ -12,7 +12,6 @@ ctsdata = ctsdata.drop("Geneid", axis = 1)
 sep = "_" # set underscore as separator
 for row in ctsdata.head(1):
     strip = row.split(sep, 1)[0] # split the column name into two at underline
-    # print(row, "|", strip) # used to check that all names are correct
     ctsdata = ctsdata.rename({row: strip}, axis ="columns") # append all the "stripped" names to existing header      
     
 # identify and remove duplicate genes in counts data
