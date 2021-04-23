@@ -1,5 +1,5 @@
 # set working directory
-setwd("C:/Users/sebastian.hansen/Documents/AML/DESeq2 analysis of mutation impact")
+setwd("~/Lehtio_lab/AML/DESeq2 analysis of mutation impact")
 
 # load relevant libraries
 library(DESeq2)
