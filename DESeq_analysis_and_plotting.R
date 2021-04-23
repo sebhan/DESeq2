@@ -12,9 +12,10 @@ coldata <- read.csv(file="coldata.csv", row.names=1)
 identical(sort(rownames(coldata)), sort(colnames(ctsdata))) # output "[1] TRUE"
 
 # make DESeq data set from imported data
+mut <- "NPM1.y" # mutation to analyse
 dataset <- DESeqDataSetFromMatrix(countData = ctsdata,
                               colData = coldata,
-                              design= ~ NPM1.y)
+                              design = formula(paste("~", mut))) #formula(paste()) enables input of design as variable
 
 # run DESeq
 dds <- DESeq(dataset)
