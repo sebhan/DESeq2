@@ -1,15 +1,17 @@
 import pandas as pd
 
+# set file input directory
+filedir = "C:/Users/Admin/Documents/Lehtio_lab/AML/"
+
 # read counts data *.csv-file
-ctsdata = pd.read_csv("C:/Users/sebastian.hansen/Documents/AML/DESeq2 analysis of mutation impact/merged_gene_counts.csv", sep="\t", index_col=False)
+filename_ctsdata = "merged_gene_counts.csv"
+ctsdata = pd.read_csv(filedir + filename_ctsdata, sep="\t", index_col=False)
 ctsdata = ctsdata.drop("Geneid", axis = 1)
 
-# set underscore ("_") as separator (sep)
-sep = "_"
-
 # iterate over counts data file header and strip out extraneous data ("_exclrRNAsAligned...")
+sep = "_" # set underscore as separator
 for row in ctsdata.head(1):
-    strip = row.split(sep, 1)[0] # split the column name into two at the separator ("_")
+    strip = row.split(sep, 1)[0] # split the column name into two at underline
     # print(row, "|", strip) # used to check that all names are correct
     ctsdata = ctsdata.rename({row: strip}, axis ="columns") # append all the "stripped" names to existing header      
     
@@ -17,7 +19,8 @@ for row in ctsdata.head(1):
 ctsdata = ctsdata.drop_duplicates(subset="gene")
 
 # read column data
-coldata = pd.read_csv("C:/Users/sebastian.hansen/Documents/AML/DESeq2 analysis of mutation impact/mutation_groups_AS_version2.csv", sep="\t", index_col=0)
+filename_coldata = "mutation_groups_AS_version2.csv"
+coldata = pd.read_csv(filedir + filename_coldata, sep="\t", index_col=0)
 coldata = coldata.transpose()
 
 #check if all patient IDs in coldata also exist in ctsdata
@@ -26,13 +29,13 @@ coldata.columns.intersection(ctsdata.columns)
 # transpose column data back to correct orientation
 coldata = coldata.transpose()
 
-# select which column(s) to keep in coldata
-coldata_stripped = coldata[["NPM1.y"]].copy()
-
 # sort the data frames, so that patient IDs are sorted for DESeq analysis in R
 ctsdata = ctsdata.reindex(sorted(ctsdata.columns), axis=1)
 coldata_stripped.sort_index(inplace=True)
 
 # save the column data and counts data to *.csv-files
-coldata_stripped.to_csv("C:/Users/sebastian.hansen/Documents/AML/DESeq2 analysis of mutation impact/coldata.csv", sep=",")
-ctsdata.to_csv("C:/Users/sebastian.hansen/Documents/AML/DESeq2 analysis of mutation impact/ctsdata.csv", sep=",", index=False)
+filedir = "C:/Users/Admin/Documents/Lehtio_lab/AML/DESeq2 analysis of mutation impact/"
+filename_out_ctsdata = "ctsdata.csv"
+ctsdata.to_csv(filedir + filename_out_ctsdata, sep=",", index=False)
+filename_out_coldata = "coldata.csv"
+coldata.to_csv(filedir + filename_out_coldata, sep=",")
